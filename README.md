@@ -58,3 +58,11 @@ The command to run the script is given below.
 ```
 python sr.py -p train -c config/sr_sr3.json
 ```
+### 4. Inference
+Once the model is trained, the model can be used for inference. The first step therein is to create the dataset as required by the codebase to run on vanilla LR images for which the below code snippet has to be executed.
+```
+python data/prepare_infer_only_LR.py ['absolute_path_of_input_LR_Images']
+```
+It will give a prompt saying "Data prepared for inference" once completed.
+
+
