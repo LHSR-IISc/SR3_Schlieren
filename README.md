@@ -65,4 +65,30 @@ python data/prepare_infer_only_LR.py ['absolute_path_of_input_LR_Images']
 ```
 It will give a prompt saying "Data prepared for inference" once completed.
 
+Inference requires a few changes to the config file as shown below.
+```
+{
+    "name": "Schlieren",
+    "phase": "val", // train or val --> val is for inference on a trained model
+    .
+    .
+    "path": { //set the path
+        .
+        .
+        "resume_state": "experiments/Schlieren_230417_103038/checkpoint/I50000_E396" // --> path of trained model in case of inference or also resumed training
+    },
 
+     "val": {
+         "name": "Schlieren",
+         "mode": "LR", // in case of doing inference with LR images, change this to LR
+         "dataroot": "test_dir", // path where inference data is stored
+         "datatype": "img", //lmdb or img
+         "l_resolution": 64,
+         "r_resolution": 256,
+         "data_len": -1 // data length in validation; like above -1 represents the whole dataset; when training keep it to the actual validation size
+        }
+```
+The command to run the script is given below.
+```
+python infer.py -c config/sr_sr3.json
+```
