@@ -58,6 +58,7 @@ The command to run the script is given below.
 ```
 python sr.py -p train -c config/sr_sr3.json
 ```
+The results during training will be stored in an automatically created directory named "experiments". It will have the training and validation logs, validation results and a 'checkpoint" directory which will contain the saved models. They will have to be called (without the extensions) during inference as discussed below.
 ### 4. Inference
 Once the model is trained, the model can be used for inference. The first step therein is to create the dataset as required by the codebase to run on vanilla LR images for which the below code snippet has to be executed.
 ```
