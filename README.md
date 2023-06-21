@@ -15,9 +15,38 @@ pip install -r requirements.txt
 ```
 
 ### 2. Train Dataset Preparation
-Store the square HR images within the root directory. The first argument corresponds to the absolute path of the data. The second argument is the directory within which the training files will be stored. The first entry in the size argument prescribes the dimension of the input while the second prescribes the output dimension. The example below is for a 4x super-resolution. The processed data can be used in LMDB or PNG format by changing the last argument.
+Training requires data stored in the manner below.
+```
+├── hr_256 # It's the same as the sr_16_128 directory if ground-truth images are unavailable. If ground truth HR images corresponding to LR are available, then they should be stored here.
+├── lr_64 # Vanilla low-resolution images
+└── sr_64_256 # Images ready to super-resolution. They are obtained by bicubically upsampling the lr_64 images.
+```
+If only HR images are available, the dataset can be prepared by first storing them in the root directory. The first argument corresponds to the absolute path of the data. The second argument is the directory within which the training files will be stored. The first entry in the size argument prescribes the dimension of the input while the second prescribes the output dimension. The example below is for a 4x super-resolution. The processed data can be used in LMDB or PNG format by changing the last argument.
 ```
 # 16x16 image --> 256x256 image
 python data/prepare_data.py  --path [input_data_path]  --out [output_data_path] --size 64,256 -l
 ```
-The entire training process is controlled by the config file 'run_sr3' in the config folder.
+### 3. Training
+The entire training process is controlled by the config file 'run_sr3' in the config folder. Some important settings are described below.
+```
+{
+   "path": { //set the path
+          .
+          .
+        "resume_state": null // training from scratch; else enter path of existing model
+    .
+    .
+    .
+    "datasets": {
+        "train": {
+            "name": "Schlieren", // name for experiment
+            "mode": "HR", // in case no corresponding LR images available, keep it as "HR"; keep "LRHR" if corresponding LR & HR images available
+            "dataroot": "train_dir", // folder in SR3/ where the processed training data is kept --> output_path from the prepare_data.py step
+            "datatype": "img", //lmdb or img
+            "l_resolution": 64, // low resolution need to super_resolution
+            "r_resolution": 256, // high resolution
+           .
+           .
+           .   
+        },
+```
