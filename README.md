@@ -30,6 +30,10 @@ python data/prepare_data.py  --path [input_data_path]  --out [output_data_path] 
 The entire training process is controlled by the config file 'run_sr3' in the config folder. Some important settings are described below.
 ```
 {
+   "name": "Schlieren",
+   "phase": "train", // train or val --> val is for inference on a trained model
+   .
+   .
    "path": { //set the path
           .
           .
@@ -49,4 +53,8 @@ The entire training process is controlled by the config file 'run_sr3' in the co
            .
            .   
         },
+```
+The command to run the script is given below.
+```
+python sr.py -p train -c config/sr_sr3.json
 ```
